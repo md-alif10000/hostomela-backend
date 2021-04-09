@@ -17,11 +17,7 @@ const initialDataRoutes = require("./routes/admin/initialData");
 const pageRoutes = require("./routes/admin/page");
 const addressRouter = require("./routes/address");
 const orderRouter = require("./routes/order");
-const rechargeRoute = require("./routes/recharge");
 const adminOrderRoute = require("./routes/admin/order.routes");
-const adminRechargeRoute = require("./routes/admin/recharges");
-const adminTicketRoute = require("./routes/admin/ticket");
-const userTicketRoute = require("./routes/ticket");
 const couponRoute = require("./routes/coupon");
 const giftCardRoute = require("./routes/giftCard");
 
@@ -57,10 +53,6 @@ app.use("/api", pageRoutes);
 app.use("/api", addressRouter);
 app.use("/api", orderRouter);
 app.use("/api", adminOrderRoute);
-app.use("/api", rechargeRoute);
-app.use("/api", adminRechargeRoute);
-app.use("/api", adminTicketRoute);
-app.use("/api", userTicketRoute);
 app.use("/api", couponRoute);
 app.use("/api", giftCardRoute);
 app.get("/", (req, res) => {
