@@ -5,21 +5,22 @@ const { validationResult } = require("express-validator");
 const shortid = require("shortid");
 const { OAuth2Client } = require("google-auth-library");
 const nodemailer = require("nodemailer");
+const env = require("dotenv");
 const fetch=require('node-fetch') 
-const googleClientId =
-	"657189057409-g02l0tmglfd02pq1dcd4ns4dgv1465b5.apps.googleusercontent.com";
-console.log(googleClientId);
-const accountSID = "ACe77966ea35e1c4ce1da14c34a61daede";
-console.log(accountSID);
-const authToken = "7ddd13bf67a8c0506a426688a74ae040";
+env.config();
+const googleClientId = process.env.GOOGLE_CLIENT_ID;
+const accountSID = process.env.T_ACCOUNT_SID;
+const authToken = process.env.T_AUTH_TOKEN;
 
-googleClient = new OAuth2Client(googleClientId);
+
+const googleClient = new OAuth2Client(googleClientId);
 
 const client = require("twilio")(accountSID, authToken);
 
 exports.userRegisterOtp = (req, res) => {
 	const { phone } = req.body;
 	console.log(phone);
+	console.log(accountSID)
 
 	User.findOne({ phone }).exec(async (error, user) => {
 		if (error) {
@@ -33,9 +34,7 @@ exports.userRegisterOtp = (req, res) => {
 			});
 		}
 		if (!user) {
-			console.log("SERVICE ID", process.env.T_SERVICE_ID);
-			console.log("SERVICE ID", accountSID);
-				console.log("SERVICE ID", authToken);
+		
 			client.verify
 				.services(process.env.T_SERVICE_ID)
 				.verifications.create({
