@@ -389,12 +389,15 @@ exports.facebookLogin = (req, res) => {
 						});
 					} else {
 						let password = email + process.env.JWT_SECRET;
+						let sid=shortid.generate()
+							let phone = sid.slice(0, 5);
 						const user = new User({
 							name,
 							email,
 							userName: shortid.generate(),
 							password,
 							profilePicture: picture.data.url,
+							phone: `dummy-${phone}`,
 						});
 						console.log("new user", user);
 						let transporter = nodemailer.createTransport({
