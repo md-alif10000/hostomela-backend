@@ -102,13 +102,13 @@ exports.userRegister = (req, res) => {
 						console.log(err);
 						return res.status(400).json({ err });
 					} else {
-						// const token = jwt.sign(
-						// 	{ _id: user._id, role: user.role },
-						// 	process.env.JWT_SECRET,
-						// 	{
-						// 		expiresIn: "7 day",
-						// 	}
-						// );
+						const token = jwt.sign(
+							{ _id: user._id, role: user.role },
+							process.env.JWT_SECRET,
+							{
+								expiresIn: "7 day",
+							}
+						);
 						_user.save((error, data) => {
 							if (error) {
 								return res.status(400).json({
@@ -118,6 +118,7 @@ exports.userRegister = (req, res) => {
 
 							return res.status(201).json({
 								user: data,
+								token
 							});
 						});
 					}
@@ -168,12 +169,12 @@ exports.userLogin = async (req, res) => {
 								expiresIn: "7 day",
 							}
 						);
-						const { _id, name, email, role, balance, phone } = user;
+						const { _id, name, email, role, balance, phone,profilePicture } = user;
 
 						return res.status(200).json({
 							token,
 							message: "Login successfull",
-							user: { _id, name, email, role, balance, phone },
+							user: { _id, name, email, role, balance, phone, profilePicture },
 						});
 					}
 				}
@@ -283,12 +284,12 @@ exports.googleLogin = (req, res) => {
 								expiresIn: "7 day",
 							}
 						);
-						const { _id, name, email, role, balance, phone } = user;
+						const { _id, name, email, role, balance, phone ,profilePicture} = user;
 
 						return res.status(200).json({
 							token,
 							message: "Login successfull",
-							user: { _id, name, email, role, balance, phone },
+							user: { _id, name, email, role, balance, phone, profilePicture },
 						});
 					} else {
 						let password = email + process.env.JWT_SECRET;
@@ -381,11 +382,19 @@ exports.facebookLogin = (req, res) => {
 								expiresIn: "7 day",
 							}
 						);
-						const { _id, name, email, role, balance, phone } = user;
+						const {
+							_id,
+							name,
+							email,
+							role,
+							balance,
+							phone,
+							profilePicture,
+						} = user;
 						return res.status(200).json({
 							token,
 							message: "Login successfull",
-							user: { _id, name, email, role, balance, phone },
+							user: { _id, name, email, role, balance, phone, profilePicture },
 						});
 					} else {
 						let password = email + process.env.JWT_SECRET;
