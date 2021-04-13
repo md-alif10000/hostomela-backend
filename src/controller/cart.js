@@ -10,7 +10,7 @@ function runUpdate(condition, update) {
 }
 
 exports.addItemToCart = (req, res) => {
-	console.log('Body Line 13',req.body)
+
 	Cart.findOne({ user: req.user._id }).exec((error, cart) => {
 		if (error) return res.status(400).json({ error });
 		if (cart) {
