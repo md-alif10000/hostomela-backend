@@ -148,6 +148,8 @@ exports.getAllProducts = async (req, res) => {
 
 exports.addReview=(req,res)=>{
 	const {review,rating,productId}=req.body
+	const date=new Date().toLocaleTimeString()
+	console.log(date)
 	try{Product.findByIdAndUpdate(
 		{ _id: productId },
 		{
@@ -156,6 +158,7 @@ exports.addReview=(req,res)=>{
 					userId: req.user._id,
 					review: review,
 					rating: rating,
+					date
 				},
 			},
 		}
