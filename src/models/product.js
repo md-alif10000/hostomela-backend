@@ -18,6 +18,7 @@ const productSchema = new mongoose.Schema(
 		},
 		desc: { type: String, required: true, trim: true },
 		offer: { type: Number },
+		highlights:[ ],
 		productPictures: [{ image: { type: String } }],
 		category: {
 			type: mongoose.Schema.Types.ObjectId,

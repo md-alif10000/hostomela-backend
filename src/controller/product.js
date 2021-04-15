@@ -3,7 +3,7 @@ const slugify = require("slugify");
 const Category = require("../models/category");
 const { ObjectId } = require("mongodb");
 exports.creatProduct = (req, res) => {
-	const { name, quantity, description, price, category } = req.body;
+	const { name, quantity, description, price, category,highlights } = req.body;
 
 	productPictures = [];
 
@@ -21,6 +21,7 @@ exports.creatProduct = (req, res) => {
 		category,
 		desc:description,
 		productPictures,
+		highlights,
 		createdBy: req.body.createdBy,
 	});
 
