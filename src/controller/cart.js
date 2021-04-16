@@ -73,7 +73,7 @@ exports.getCartItems = (req, res) => {
 					cartItems[item.product._id.toString()] = {
 						_id: item.product._id.toString(),
 						name: item.product.name,
-						image: item.product.productPictures[0].img,
+						image: item.product.productPictures[0].image,
 						price: item.product.price,
 						qty: item.quantity,
 					};
