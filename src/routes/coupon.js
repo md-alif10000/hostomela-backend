@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post("/coupon/addCoupon", requireLogin, isAdmin, addCoupon);
 
-router.post("/coupon/validateCoupon", requireLogin, isUser, validateCoupon);
+router.post("/coupon/validateCoupon",  validateCoupon);
 
 router.get("/coupon/allCoupon", requireLogin, isAdmin, getAllCoupon);
 router.put("/coupon/updateCoupon", requireLogin, isAdmin, updateCoupon);
