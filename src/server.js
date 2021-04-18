@@ -39,6 +39,7 @@ mongoose
 //Server Config
 app.use(express.json());
 app.use(cors());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use("/public", express.static(path.join(__dirname, "uploads")));

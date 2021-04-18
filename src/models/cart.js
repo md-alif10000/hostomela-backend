@@ -14,6 +14,7 @@ const cartSchema = new mongoose.Schema(
 					required: true,
 				},
 				quantity: { type: Number, default: 1 },
+				stitch:{type:Boolean,default:false}
 			},
 		],
 	},
