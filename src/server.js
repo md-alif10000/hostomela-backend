@@ -6,6 +6,7 @@ const mongoose = require("mongoose");
 const path = require("path");
 const cors = require("cors");
 
+env.config();
 const bodyParser = require("body-parser");
 
 //Router Import
@@ -22,7 +23,6 @@ const adminOrderRoute = require("./routes/admin/order.routes");
 const couponRoute = require("./routes/coupon");
 const giftCardRoute = require("./routes/giftCard");
 
-env.config();
 
 const URI = process.env.MONGO_URI;
 mongoose

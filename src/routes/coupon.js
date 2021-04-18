@@ -8,11 +8,9 @@ const {
 } = require("../controller/admin/coupon");
 const { validateCoupon } = require("../controller/coupon");
 const router = express.Router();
+router.post("/coupon/validateCoupon", validateCoupon);
 
 router.post("/coupon/addCoupon", requireLogin, isAdmin, addCoupon);
-
-router.post("/coupon/validateCoupon",  validateCoupon);
-
 router.get("/coupon/allCoupon", requireLogin, isAdmin, getAllCoupon);
 router.put("/coupon/updateCoupon", requireLogin, isAdmin, updateCoupon);
 router.delete("/coupon/deleteCoupon", requireLogin, isAdmin, deleteCoupon);
