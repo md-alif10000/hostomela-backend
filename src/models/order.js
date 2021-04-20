@@ -29,6 +29,12 @@ const orderSchema = new mongoose.Schema(
 					type: Number,
 					required: true,
 				},
+				size: {
+					type: String,
+				},
+				color: {
+					type: String,
+				},
 			},
 		],
 		paymentStatus: {
@@ -57,7 +63,7 @@ const orderSchema = new mongoose.Schema(
 		],
 		coupon: {
 			type: mongoose.Schema.Types.ObjectId,
-			ref:'Coupon'
+			ref: "Coupon",
 		},
 	},
 	{ timestamps: true }

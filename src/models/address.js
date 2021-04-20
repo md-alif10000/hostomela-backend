@@ -15,13 +15,7 @@ const addressSchema = new mongoose.Schema({
         required:true,
         trim:true
     },
-    // locality:{
-    //     type:String,
-    //     required:true,
-    //     trim:true,
-    //     min:10,
-    //     max:100
-    // },
+  
 
     address:{
         type:String,
@@ -35,28 +29,12 @@ const addressSchema = new mongoose.Schema({
         required:true,
         trim:true,
     },
-    // state:{
-    //     type:String,
-    //     required:true,
 
-    // },
-    // landmark:{
-    //     type:String,
-    //    min:3,
-    //    max:100
-    // },
 alternatePhone:{
     type:String
 },
-// addressType:{
-//     type:String,
-//     required:true,
-//     enum:['home','work']
-// }
 
 });
-
-
 
 const userAddressSchema=new mongoose.Schema({
     user:{

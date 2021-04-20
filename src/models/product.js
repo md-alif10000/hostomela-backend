@@ -18,8 +18,12 @@ const productSchema = new mongoose.Schema(
 		},
 		desc: { type: String, required: true, trim: true },
 		offer: { type: Number },
-		highlights:[ ],
+		highlights: [{title:{
+			type:String
+		}}],
 		productPictures: [{ image: { type: String } }],
+		sizes: [{ size: { type: String } }],
+		colors: [{ color: { type: String } }],
 		category: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Category",
@@ -29,14 +33,13 @@ const productSchema = new mongoose.Schema(
 			{
 				userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
 				review: String,
-				rating:Number,
-				date:String
+				rating: Number,
+				date: String,
 			},
 		],
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",
-		
 		},
 		updatedAt: Date,
 	},
