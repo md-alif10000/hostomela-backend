@@ -1,7 +1,7 @@
 const Product = require("../models/product");
 const slugify = require("slugify");
 const Category = require("../models/category");
-const { ObjectId } = require("mongodb");
+
 exports.creatProduct = (req, res) => {
 	var { name, quantity, price, category, highlights, sizes,colors } = req.body;
 	console.log(req.body)
@@ -137,7 +137,7 @@ exports.getAllProducts = async (req, res) => {
 			const products = await Product.find({})
 				.sort({ createdAt: -1 })
 				.select(
-					"_id name price  productPictures "
+					"_id name slug price  productPictures "
 				)
 				.populate({ path: "category", select: "_id name" })
 				.exec();
