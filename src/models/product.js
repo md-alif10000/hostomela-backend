@@ -16,27 +16,26 @@ const productSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
-		desc: { type: String, required: true, trim: true },
+		// desc: { type: String, required: true, trim: true },
 		offer: { type: Number },
-		highlights: [{title:{
-			type:String
-		}}],
+		highlights: [String],
 		productPictures: [{ image: { type: String } }],
-		sizes: [{ size: { type: String } }],
-		colors: [{ color: { type: String } }],
+		sizes: [{ size: { type: String },
+		price:{type:Number} }],
+		colors: [{ colorName: { type: String }, code: { type: String } }],
 		category: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "Category",
 			required: true,
 		},
-		reviews: [
-			{
-				userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-				review: String,
-				rating: Number,
-				date: String,
-			},
-		],
+		// reviews: [
+		// 	{
+		// 		userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+		// 		review: String,
+		// 		rating: Number,
+		// 		date: String,
+		// 	},
+		// ],
 		createdBy: {
 			type: mongoose.Schema.Types.ObjectId,
 			ref: "User",

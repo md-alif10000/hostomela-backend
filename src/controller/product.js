@@ -3,7 +3,8 @@ const slugify = require("slugify");
 const Category = require("../models/category");
 const { ObjectId } = require("mongodb");
 exports.creatProduct = (req, res) => {
-	const { name, quantity, description, price, category,highlights } = req.body;
+	var { name, quantity, price, category, highlights, sizes,colors } = req.body;
+	console.log(req.body)
 
 	productPictures = [];
 
@@ -12,16 +13,21 @@ exports.creatProduct = (req, res) => {
 			return { image: file.filename };
 		});
 	}
+	var colors=colors=''? []: JSON.parse(colors)
+	var sizes= sizes== undefined? []: JSON.parse(sizes)
+
+
 
 	const product = new Product({
 		name,
 		slug: slugify(name),
-		price,
+		price:parseInt(price),
 		quantity,
 		category,
-		desc:description,
 		productPictures,
 		highlights,
+		colors,
+		sizes,
 		createdBy: req.body.createdBy,
 	});
 
@@ -131,7 +137,7 @@ exports.getAllProducts = async (req, res) => {
 			const products = await Product.find({})
 				.sort({ createdAt: -1 })
 				.select(
-					"_id name price quantity slug description productPictures category"
+					"_id name price  productPictures "
 				)
 				.populate({ path: "category", select: "_id name" })
 				.exec();
