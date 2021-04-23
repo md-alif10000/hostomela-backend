@@ -74,14 +74,16 @@ exports.getCartItems = (req, res) => {
 						_id: item.product._id.toString(),
 						name: item.product.name,
 						image: item.product.productPictures[0].image,
-						price: item.price,
+						price: item.price ? item.price :item.product.price  ,
 						qty: item.quantity,
 						size:item.size,
-						color:item.color
+						color:item.color,
+						stitch:item.stitch
 					};
 				});
 				res.status(200).json({ cartItems });
 			}
+			return res.status(200).json({message:'cart is empty'})
 		});
 	//}
 };

@@ -15,6 +15,10 @@ const orderSchema = new mongoose.Schema(
 			type: Number,
 			required: true,
 		},
+		deliveryCharge: {
+			type: Number,
+			required: true,
+		},
 		items: [
 			{
 				productId: {
@@ -34,6 +38,9 @@ const orderSchema = new mongoose.Schema(
 				},
 				color: {
 					type: String,
+				},
+				stitch: {
+					type: Boolean,
 				},
 			},
 		],
