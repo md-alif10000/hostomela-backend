@@ -83,7 +83,8 @@ exports.getCartItems = (req, res) => {
 				});
 				res.status(200).json({ cartItems });
 			}
-			return res.status(200).json({message:'cart is empty'})
+			if(!cart)return res.status(200).json({ message: "cart is empty" });
+	
 		});
 	//}
 };

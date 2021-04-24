@@ -34,7 +34,6 @@ router.post(
   "/register",
   validateRegisterRequest,
   isRegisterRequestValidated,
-  upload.single('profilePicture'),
   userRegister
 );
 

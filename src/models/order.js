@@ -11,6 +11,15 @@ const orderSchema = new mongoose.Schema(
 			ref: "UserAddress.address",
 			required: true,
 		},
+		address: {
+			id: { type: mongoose.Schema.Types.ObjectId, ref: "UserAddress.address" },
+			name:{type:String},
+			mobileNumber:{type:String},
+			zipCode:{type:String},
+			address:{type:String},
+			cityDistrict:{type:String},
+			alternatePhone:{type:String}
+		},
 		totalAmount: {
 			type: Number,
 			required: true,

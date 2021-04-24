@@ -39,7 +39,8 @@ exports.addOrder = (req, res) => {
 };
 
 exports.getOrders = (req, res) => {
-	Order.find({ user: req.user._id }).sort({createdAt:-1})
+	Order.find({ user: req.user._id })
+		.sort({ createdAt: -1 })
 		.select("_id paymentStatus paymentType orderStatus items ")
 		.populate("items.productId", "_id name productPictures")
 		.exec((error, orders) => {

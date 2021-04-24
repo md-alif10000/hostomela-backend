@@ -36,7 +36,9 @@ exports.initialData = async (req, res) => {
 		.exec();
 	const orders = await Order.find({})
 		.sort({ createdAt: -1 })
-		.populate("items.productId", "name")
+		.populate("items.productId", "name productPictures")
+		.populate("user", "name email phone")
+
 		.exec();
 
 	const users= await User.find({}).sort({createdAt:-1}).exec()	

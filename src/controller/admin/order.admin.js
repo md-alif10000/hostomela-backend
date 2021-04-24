@@ -20,8 +20,9 @@ exports.updateOrder = (req, res) => {
 
 exports.getCustomerOrders = async (req, res) => {
 	const orders = await Order.find()
-		.sort({ "createdAt": -1 })
-		.populate("items.productId", "name")
+		.sort({ createdAt: -1 })
+		.populate("items.productId", "name productPictures")
+		.populate("user", "name")
 		.exec();
 	console.log(orders);
 	res.status(200).json({ orders });

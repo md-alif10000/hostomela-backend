@@ -29,7 +29,7 @@ exports.userRegisterOtp = (req, res) => {
 			});
 		}
 		if (user) {
-			res.status(400).json({
+			return res.status(403).json({
 				message: "User Already Registered",
 			});
 		}
@@ -69,8 +69,7 @@ exports.userRegister = (req, res) => {
 		.then(async (data) => {
 			if (data.status === "approved") {
 				const hash = await bcrypt.hash(password, 9);
-				    const profilePicture = req.file.filename;
-					console.log(profilePicture)
+				// const profilePicture = req.file.filename;
 
 				const _user = new User({
 					name,
@@ -78,51 +77,70 @@ exports.userRegister = (req, res) => {
 					userName: shortid.generate(),
 					phone,
 					password: hash,
-					profilePicture,
 				});
 
-				let transporter = nodemailer.createTransport({
-					service: "gmail",
-					auth: {
-						user: process.env.EMAIL,
-						pass: process.env.PASS,
-					},
-				});
+			const token = jwt.sign(
+						{ _id: user._id, role: user.role },
+					process.env.JWT_SECRET,
+						{
+			 				expiresIn: "7 day",
+			 			}
+			 		);
 
-				console.log(process.env.EMAIL);
-				let mailOptions = {
-					from: process.env.EMAIL,
-					to: email,
-					subject: "New account Registration",
-					text: "Successfully registered your account.......",
-				};
-
-				transporter.sendMail(mailOptions, (err, data) => {
-					if (err) {
-						console.log(err);
-						return res.status(400).json({ err });
-					} else {
-						const token = jwt.sign(
-							{ _id: user._id, role: user.role },
-							process.env.JWT_SECRET,
-							{
-								expiresIn: "7 day",
-							}
-						);
-						_user.save((error, data) => {
-							if (error) {
-								return res.status(400).json({
-									error,
-								});
-							}
-
-							return res.status(201).json({
-								user: data,
-								token
-							});
+				_user.save((error, data) => {
+					if (error) {
+						return res.status(400).json({
+							error,
 						});
 					}
+					return res.status(201).json({
+						user: data,
+						token,
+					});
 				});
+
+				// let transporter = nodemailer.createTransport({
+				// 	service: "gmail",
+				// 	auth: {
+				// 		user: process.env.EMAIL,
+				// 		pass: process.env.PASS,
+				// 	},
+				// });
+
+				// console.log(process.env.EMAIL);
+				// let mailOptions = {
+				// 	from: process.env.EMAIL,
+				// 	to: email,
+				// 	subject: "New account Registration",
+				// 	text: "Successfully registered your account.......",
+				// };
+
+				// transporter.sendMail(mailOptions, (err, data) => {
+				// 	if (err) {
+				// 		console.log(err);
+				// 		return res.status(400).json({ err });
+				// 	} else {
+				// 		const token = jwt.sign(
+				// 			{ _id: user._id, role: user.role },
+				// 			process.env.JWT_SECRET,
+				// 			{
+				// 				expiresIn: "7 day",
+				// 			}
+				// 		);
+				// 		_user.save((error, data) => {
+				// 			if (error) {
+				// 				return res.status(400).json({
+				// 					error,
+				// 				});
+				// 			}
+
+				// 			return res.status(201).json({
+				// 				user: data,
+				// 				token
+				// 			});
+				// 		});
+				// 	}
+				// });
 			} else {
 				return res.status(400).json({ message: "Invalid OTP" });
 			}
