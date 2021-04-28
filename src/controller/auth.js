@@ -77,6 +77,8 @@ exports.userRegister = (req, res) => {
 					userName: shortid.generate(),
 					phone,
 					password: hash,
+				}).catch(error=>{
+					console.log(error)
 				});
 
 			const token = jwt.sign(
@@ -322,8 +324,8 @@ exports.googleLogin = (req, res) => {
 							phone:`dummy-${phone}`
 						
 						});
-						console.log(shortid.generate())
-						console.log("new user", user);
+					
+					
 						let transporter = nodemailer.createTransport({
 							service: "gmail",
 							auth: {
@@ -386,8 +388,6 @@ exports.facebookLogin = (req, res) => {
 		.then((response) => {
 			const { name, email, picture, id } = response;
 
-			console.log("Response", response);
-
 			User.findOne({ email }).exec((err, user) => {
 				if (err)
 					return res.status(400).json({ error: "Something went wrong.." });
@@ -426,7 +426,6 @@ exports.facebookLogin = (req, res) => {
 							profilePicture: picture.data.url,
 							phone: `dummy-${phone}`,
 						});
-						console.log("new user", user);
 						let transporter = nodemailer.createTransport({
 							service: "gmail",
 							auth: {
@@ -435,7 +434,6 @@ exports.facebookLogin = (req, res) => {
 							},
 						});
 
-						console.log(process.env.EMAIL);
 						let mailOptions = {
 							from: process.env.EMAIL,
 							to: email,

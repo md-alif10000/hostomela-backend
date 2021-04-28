@@ -38,7 +38,6 @@ exports.initialData = async (req, res) => {
 		.sort({ createdAt: -1 })
 		.populate("items.productId", "name productPictures")
 		.populate("user", "name email phone")
-
 		.exec();
 
 	const users= await User.find({}).sort({createdAt:-1}).exec()	
