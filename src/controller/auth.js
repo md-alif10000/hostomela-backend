@@ -77,10 +77,7 @@ exports.userRegister = (req, res) => {
 					userName: shortid.generate(),
 					phone,
 					password: hash,
-				}).catch(error=>{
-					console.log(error)
-				});
-
+				})
 			const token = jwt.sign(
 						{ _id: user._id, role: user.role },
 					process.env.JWT_SECRET,
