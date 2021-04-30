@@ -6,12 +6,11 @@ const shortid = require("shortid");
 const { OAuth2Client } = require("google-auth-library");
 const nodemailer = require("nodemailer");
 const env = require("dotenv");
-const fetch=require('node-fetch') 
+const fetch = require("node-fetch");
 env.config();
 const googleClientId = process.env.GOOGLE_CLIENT_ID;
 const accountSID = process.env.T_ACCOUNT_SID;
 const authToken = process.env.T_AUTH_TOKEN;
-
 
 const googleClient = new OAuth2Client(googleClientId);
 
@@ -20,7 +19,7 @@ const client = require("twilio")(accountSID, authToken);
 exports.userRegisterOtp = (req, res) => {
 	const { phone } = req.body;
 	console.log(phone);
-	console.log(accountSID)
+	console.log(accountSID);
 
 	User.findOne({ phone }).exec(async (error, user) => {
 		if (error) {
@@ -34,7 +33,6 @@ exports.userRegisterOtp = (req, res) => {
 			});
 		}
 		if (!user) {
-		
 			client.verify
 				.services(process.env.T_SERVICE_ID)
 				.verifications.create({
@@ -50,15 +48,16 @@ exports.userRegisterOtp = (req, res) => {
 						phonenumber: phone,
 						data,
 					});
-					
 				});
 		}
 		// sent otp to verify user
 	});
 };
 exports.userRegister = (req, res) => {
-	const { name, email, password, phone, otp,profilePicture } = req.body;
+	const { name, email, password, phone, otp, profilePicture } = req.body;
 	console.log("user register....");
+
+	console.log(otp);
 
 	client.verify
 		.services(process.env.T_SERVICE_ID)
@@ -67,6 +66,7 @@ exports.userRegister = (req, res) => {
 			code: otp,
 		})
 		.then(async (data) => {
+	
 			if (data.status === "approved") {
 				const hash = await bcrypt.hash(password, 9);
 				// const profilePicture = req.file.filename;
@@ -77,14 +77,14 @@ exports.userRegister = (req, res) => {
 					userName: shortid.generate(),
 					phone,
 					password: hash,
-				})
-			const token = jwt.sign(
-						{ _id: user._id, role: user.role },
+				});
+				const token = jwt.sign(
+					{ _id: _user._id, role: _user.role },
 					process.env.JWT_SECRET,
-						{
-			 				expiresIn: "7 day",
-			 			}
-			 		);
+					{
+						expiresIn: "7 day",
+					}
+				);
 
 				_user.save((error, data) => {
 					if (error) {
@@ -186,7 +186,15 @@ exports.userLogin = async (req, res) => {
 								expiresIn: "7 day",
 							}
 						);
-						const { _id, name, email, role, balance, phone,profilePicture } = user;
+						const {
+							_id,
+							name,
+							email,
+							role,
+							balance,
+							phone,
+							profilePicture,
+						} = user;
 
 						return res.status(200).json({
 							token,
@@ -270,23 +278,13 @@ exports.changePassword = (req, res) => {
 		});
 };
 
-
-
-
-
 exports.googleLogin = (req, res) => {
 	const { tokenId } = req.body;
 
 	googleClient
 		.verifyIdToken({ idToken: tokenId, audience: googleClientId })
 		.then((response) => {
-			const {
-				email_verified,
-				name,
-				email,
-				picture,
-				sub,
-			} = response.payload;
+			const { email_verified, name, email, picture, sub } = response.payload;
 			console.log(response.payload);
 			console.log({ email_verified, name, email, picture, sub });
 			User.findOne({ email }).exec((err, user) => {
@@ -301,7 +299,15 @@ exports.googleLogin = (req, res) => {
 								expiresIn: "7 day",
 							}
 						);
-						const { _id, name, email, role, balance, phone ,profilePicture} = user;
+						const {
+							_id,
+							name,
+							email,
+							role,
+							balance,
+							phone,
+							profilePicture,
+						} = user;
 
 						return res.status(200).json({
 							token,
@@ -318,11 +324,9 @@ exports.googleLogin = (req, res) => {
 							userName: shortid.generate(),
 							password,
 							profilePicture: picture,
-							phone:`dummy-${phone}`
-						
+							phone: `dummy-${phone}`,
 						});
-					
-					
+
 						let transporter = nodemailer.createTransport({
 							service: "gmail",
 							auth: {
@@ -353,7 +357,7 @@ exports.googleLogin = (req, res) => {
 								);
 								user.save((error, data) => {
 									if (error) {
-										console.log(error)
+										console.log(error);
 										return res.status(400).json({
 											error,
 										});
@@ -372,13 +376,10 @@ exports.googleLogin = (req, res) => {
 		});
 };
 
-
-
-
 exports.facebookLogin = (req, res) => {
-	console.log(req.body)
-	const { accessToken,userID } = req.body;
-	let urlGraphFacebook=`https://graph.facebook.com/v2.11/${userID}/?fields=id,name,picture,email&access_token=${accessToken}`
+	console.log(req.body);
+	const { accessToken, userID } = req.body;
+	let urlGraphFacebook = `https://graph.facebook.com/v2.11/${userID}/?fields=id,name,picture,email&access_token=${accessToken}`;
 
 	fetch(urlGraphFacebook, { method: "GET" })
 		.then((response) => response.json())
@@ -413,8 +414,8 @@ exports.facebookLogin = (req, res) => {
 						});
 					} else {
 						let password = email + process.env.JWT_SECRET;
-						let sid=shortid.generate()
-							let phone = sid.slice(0, 5);
+						let sid = shortid.generate();
+						let phone = sid.slice(0, 5);
 						const user = new User({
 							name,
 							email,
@@ -468,5 +469,4 @@ exports.facebookLogin = (req, res) => {
 				}
 			});
 		});
-
 };
